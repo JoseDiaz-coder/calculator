@@ -34,6 +34,7 @@ def numero(num):
     else:
         displaynum.set(displaynum.get() + num)
 
+
 #----------funcion operacion-------
 def suma(num):
 
@@ -41,17 +42,21 @@ def suma(num):
     global resultado
     global reset_pantalla
 
+
     if num.count(".")==1:
 
-      resultado+=float(num)
+      resultado=float(resultado) + float(num)
       displaynum.set(resultado)
 
+
     else:
-        resultado+=int(num)
+
+        resultado = int(resultado)+int(num)
         displaynum.set(resultado)
 
+
     operacion = "suma"
-    reset_pantalla=True
+    reset_pantalla = True
 
 num1=0
 contador_resta=0
@@ -63,8 +68,15 @@ def resta(num):
     global contador_resta
     global num1
     global reset_pantalla
-
+    reset_pantalla = True
+    
     if contador_resta==0:
+
+        if num.count(".")==1:
+            num1 = float(num)
+            resultado=num1
+
+        else:
             num1=int(num)
             resultado=num1
 
@@ -73,17 +85,25 @@ def resta(num):
 
          if  contador_resta==1:
 
-            resultado=num1- int(num)
+             if num.count(".")==1:
+                 resultado=num1-floar(num)
+
+             else:
+                resultado=num1- int(num)
 
          else:
-            resultado=int(resultado) - int(num)
 
-         displaynum.set(resultado)
-         resultado=displaynum.get()
+             if num.count(".")==1:
+                 resultado= float(resultado) - float(num)
 
+             else:
+                resultado=int(resultado) - int(num)
+
+    displaynum.set(resultado)
+    resultado=displaynum.get()
     contador_resta+=1
     operacion = "resta"
-    reset_pantalla=True
+
 
 
 contador_multi=0
@@ -95,46 +115,65 @@ def multiplicacion(num):
     global num1
     global contador_multi
 
-
+    reset_pantalla = True
     if contador_multi==0:
+        #decimal
+        if num.count(".")==1:
+            num1 = float(num)
+            resultado = num1
 
-        num1 = int(num)
-        resultado = num1
+        else:
+            num1 = int(num)
+            resultado = num1
 
 
 
     else:
+
         if contador_multi==1:
-            resultado =num1 * int(num)
+            #para decimales
+            if num.count(".")==1:
+                resultado = num1 * float(num)
+
+            else:
+
+                resultado =num1 * int(num)
 
 
         else:
+            if num.count(".")==1:
+                resultado=float(resultado)*float(num)
 
-            resultado=int(resultado) * int(num)
+            else:
+                resultado=int(resultado) * int(num)
 
     displaynum.set(resultado)
-    resultado=displaynum.get()
+    resultado = displaynum.get()
     contador_multi+=1
     operacion = "multiplicacion"
-    reset_pantalla=True
+
 
 contador_div=0
 
 def division(num):
     global contador_div
     global num1
-
+    global operacion
     global resultado
     global reset_pantalla
 
+    reset_pantalla = True
     if contador_div==0:
+
         if num.count(".")==1:
 
             num1 = float(num)
             resultado = num1
+            print("entro a div 0")
         else:
             num1 = int(num)
             resultado = num1
+            print("entro div 0 int")
 
 
     else:
@@ -145,20 +184,23 @@ def division(num):
 
             else:
                 resultado = num1 / int(num)
+                print("entro a div 1")
 
 
         else:
             if num.count(".")==1:
 
                 resultado = float(resultado) / float(num)
+                print("div 1++ deci")
             else:
-                resultado = int(resultado) / int(num)
+                resultado = float(resultado) / int(num)
+                print("entro a div 1++")
 
     displaynum.set(resultado)
     resultado = displaynum.get()
     contador_div+=1
+    operacion="division"
 
-    reset_pantalla = True
 
 
 
@@ -166,20 +208,29 @@ def division(num):
 def result(num):
 
     global operacion
-    global  resultado
+    global resultado
     global contador_resta
     global contador_multi
     global contador_div
 
     if  operacion=="suma":
+        resultS = str(resultado)
 
         if num.count(".")==1:
-            displaynum.set(resultado + float(displaynum.get()))
+
+            displaynum.set(float(resultado) + float(displaynum.get()))
             resultado = 0
 
-        else:
-            displaynum.set((resultado + int(displaynum.get())))
+
+        elif resultS.count(".")==1:
+            displaynum.set(float(resultado) + int(displaynum.get()))
             resultado = 0
+
+
+        else:
+            displaynum.set(int(resultado) + int(displaynum.get()))
+            resultado = 0
+
 
 
     elif operacion=="resta":
@@ -188,11 +239,12 @@ def result(num):
             displaynum.set(float(resultado)-float(displaynum.get()))
             resultado = 0
             contador_resta = 0
-
+            print("resta result dec")
         else:
             displaynum.set(int(resultado)-int(displaynum.get()))
             resultado = 0
             contador_resta = 0
+            print("resta result int")
 
     elif operacion=="multiplicacion":
 
@@ -202,21 +254,23 @@ def result(num):
             contador_multi = 0
 
         else:
-            displaynum.set(int(resultado) * int(displaynum.get()))
+            displaynum.set(float(resultado) * int(displaynum.get()))
             resultado = 0
             contador_multi = 0
 
-    else:
+    elif operacion=="division":
 
         if num.count(".")==1:
             displaynum.set(float(resultado) / float(displaynum.get()))
             resultado = 0
             contador_div = 0
+            print("resultado div dec")
 
         else:
             displaynum.set(float(resultado) / int(displaynum.get()))
             resultado = 0
             contador_div = 0
+            print("resultado div int")
 
 
 
@@ -225,8 +279,8 @@ def result(num):
 
 
 def clear():
-    displaynum.set(" ")
-
+    displaynum.set("")
+    print("entro a clear")
 
 def delete(num):
 
